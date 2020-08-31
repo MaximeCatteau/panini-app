@@ -1,0 +1,7 @@
+{
+  "/gets": {
+    "target": "https://51.210.180.207/:3000",
+    "secure": true,
+    "changeOrigin": true
+  }
+}
