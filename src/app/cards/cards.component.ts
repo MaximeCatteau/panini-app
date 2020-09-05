@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Card } from '../card';
 import { CardService } from '../card.service';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { PlayerService } from '../player.service';
+import { CollectionsService } from '../collections.service';
 
 @Component({
   selector: 'app-cards',
@@ -14,22 +14,20 @@ export class CardsComponent implements OnInit {
 
   @Input()
   cards: Card[];
+  allCards: Card[];
   players: [];
+  collections: [];
   http: HttpClient
-  selectedOption: string;
+  selectedPlayer: string;
+  selectedCollection: string;
 
-  constructor(private cardService: CardService, private playerService: PlayerService) { 
+  constructor(
+    private cardService: CardService, 
+    private playerService: PlayerService, 
+    private collectionService: CollectionsService) { 
   }
 
   ngOnInit(): void {
-    //console.log(this.selectedOption);
-    /*this.cardService.getCards().subscribe(
-      cards => {
-        this.cards = cards;
-        console.log(cards);
-      },
-      error => console.log(error)
-    );*/
     
     this.playerService.getPlayers().subscribe(
       players => {
@@ -37,19 +35,140 @@ export class CardsComponent implements OnInit {
         console.log(players);
       }, 
       error => console.log(error)
+    );
+
+    this.collectionService.getCollections().subscribe(
+      collections => {
+        this.collections = collections;
+        console.log(collections);
+      },
+      error => console.log(error)
       
     );
-  }
 
-
-  onOptionSelected(): void {
-    console.log(this.selectedOption);
-    this.cardService.getCardsByUser(this.selectedOption).subscribe(
+    this.cardService.getCards().subscribe(
       cards => {
-        this.cards = cards;
-        console.log(cards); 
-      },
+        this.allCards = cards;
+      }, 
       error => console.log(error)
     );
   }
+
+
+  onPlayerSelected(): void {
+    if(!this.selectedCollection){
+      this.selectedCollection = "1";
+    }
+
+    let collectionSize = 0;
+    let firstIndex = 0;
+    let lastIndex = 0;
+
+    this.collectionService.getCollectionSize(this.selectedCollection).subscribe(
+      size => {
+        collectionSize = size;
+        console.log(collectionSize);
+      },
+      error => console.log(error)
+    );
+
+    this.collectionService.getFirstIndexOfCollection(this.selectedCollection).subscribe(
+      first => {
+        firstIndex = first;
+      },
+      error => console.log(error)
+    );
+
+    this.collectionService.getLastIndexOfCollection(this.selectedCollection).subscribe(
+      last => {
+        lastIndex = last;
+      },
+      error => console.log(error)
+    );
+
+    this.cardService.getCardsByUserByCollection(this.selectedPlayer, this.selectedCollection).subscribe(
+      cards => {
+        this.cards = cards;
+        let newCards = [];
+        var it = 0;
+
+        for (let i = firstIndex; i <= lastIndex; i++) {
+          let hasCard = cards.find(card => card.id == i);
+          //console.log(hasCard);
+          
+          if(hasCard){
+            //newCards.push(this.allCards[i-1]);
+            newCards.push(hasCard);
+          } else if(!hasCard){
+            newCards.push({'id': i, 'name': "", 'src': null});
+          }
+          it++;
+        }
+        this.cards = newCards;
+        console.log(this.cards);
+        
+      },
+      error => console.log(error)      
+    );
+
+  }
+
+  onCollectionSelected(): void {
+    console.log(this.selectedCollection);
+    if(!this.selectedPlayer){
+      this.selectedPlayer = "689491646043521033";
+    }
+
+    let collectionSize = 0;
+    let firstIndex = 0;
+    let lastIndex = 0;
+
+    this.collectionService.getCollectionSize(this.selectedCollection).subscribe(
+      size => {
+        collectionSize = size;
+        console.log(collectionSize);
+      },
+      error => console.log(error)
+    );
+
+    this.collectionService.getFirstIndexOfCollection(this.selectedCollection).subscribe(
+      first => {
+        firstIndex = first;
+      },
+      error => console.log(error)
+    );
+
+    this.collectionService.getLastIndexOfCollection(this.selectedCollection).subscribe(
+      last => {
+        lastIndex = last;
+      },
+      error => console.log(error)
+    );
+    
+    this.cardService.getCardsByUserByCollection(this.selectedPlayer, this.selectedCollection).subscribe(
+      cards => {
+        this.cards = cards;
+        let newCards = [];
+        var it = 0;
+
+        for (let i = firstIndex; i <= lastIndex; i++) {
+          let hasCard = cards.find(card => card.id == i);
+          //console.log(hasCard);
+          
+          if(hasCard){
+            newCards.push(hasCard);
+          } else if(!hasCard){
+            newCards.push({'id': i, 'name': "", 'src': null});
+          }
+          it++;
+        }
+
+        console.log(newCards);
+        this.cards = newCards;
+        
+      },
+      error => console.log(error)      
+    );    
+  }
+
 }

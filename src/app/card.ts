@@ -8,6 +8,7 @@ export class Card {
             json['src'],
             json['collection'],
             json['collectionId'],
+            json['cardQuantity']
         );
     }
 
@@ -17,6 +18,7 @@ export class Card {
                 public rareness: string,
                 public src: string,
                 public collection: string,
-                public collectionId: number) {
+                public collectionId: number,
+                public cardQuantity: number) {
     }
 }

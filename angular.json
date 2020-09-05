@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "panini-app": {
@@ -62,7 +62,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "panini-app:build",
+            "browserTarget": "panini-app:build"
           },
           "configurations": {
             "production": {
@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "panini-app"
+    }
+  },
+  "defaultProject": "panini-app",
+  "cli": {
+    "analytics": false
+  }
 }

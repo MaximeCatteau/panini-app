@@ -24,12 +24,89 @@ li {
     margin-bottom: 4px;
 }
 
-.one-card { 
-    border: 1px solid black;
+.one-card {
+    height: 310px;
 }
 
 .player-selector{
     margin: 20px;
     display: block;
     text-align: center;
+}
+
+.unavalaible_card_id {
+    text-align: center;
+    font-size: 50pt;
+    color: lightgray;
+}
+
+.outer {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.available_card_id {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+}
+
+.pastille {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 5px;
+    text-align: center;
+    display: table;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #797979;
+}
+
+.pastille_container {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.double_pastille_container {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    position: relative;
+}
+
+.double_pastille {
+    position: absolute;
+    top: -20px;
+    right: -15px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 5px;
+    text-align: center;
+    display: table;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.double_number {
+    color: white;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 10pt;
+    font-weight: bold;
 }

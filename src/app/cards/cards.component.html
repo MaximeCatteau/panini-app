@@ -3,8 +3,14 @@
 <div class="container">
   <div class="row player-selector">
     <div>Choix du joueur :</div>
-    <select [(ngModel)]="selectedOption" (ngModelChange)="onOptionSelected()" name="players" id="playerSelect">
+    <select [(ngModel)]="selectedPlayer" (ngModelChange)="onPlayerSelected()" name="players" id="playerSelect">
       <option *ngFor="let player of players" value="{{ player.id }}">{{ player.name }}</option>
+    </select>
+  </div>
+  <div class="row player-selector">
+    <div>Choix de la collection :</div>
+    <select [(ngModel)]="selectedCollection" (ngModelChange)="onCollectionSelected()" name="collections" id="collectionSelect">
+      <option *ngFor="let collection of collections" value="{{ collection.collectionId }}">{{ collection.collection }}</option>
     </select>
   </div>
 </div>
@@ -12,8 +18,23 @@
 <div class="container">
   <div class="row">
     <div class="col-3 one-card" *ngFor="let card of cards">
-      <div class="card_name">{{ card.name }}</div>
-      <img class= "center" src="assets/{{ card.src }}">
+      <div *ngIf="card.src">
+        <div class="card_name">{{ card.name }}</div>
+        <img class= "center" src="assets/{{ card.src }}">
+        <div *ngIf="card.cardQuantity > 1" class="double_pastille_container">
+          <div class="double_pastille">
+            <div class="double_number">x{{ card.cardQuantity }}</div>
+          </div>
+        </div>
+        <div class="pastille_container">
+          <div class="pastille">
+            <div class="available_card_id">{{ card.id }}</div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!card.src" class="outer">
+        <div class="middle unavalaible_card_id">{{ card.id }}</div>
+      </div>
     </div>
   </div>
 </div>
